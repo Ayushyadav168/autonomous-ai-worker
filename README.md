@@ -36,7 +36,7 @@ Example task it solves end to end:
 
 ## Setup
 
-Requires Python 3.10+.
+Requires Python 3.9+.
 
 ```bash
 python3 -m venv .venv
@@ -71,6 +71,21 @@ just the agent's self-report) and the path to the full transcript/screenshots.
 
 To reset the mock environment's database between manual experiments, restart `run.py` —
 it recreates `mock_env/internal_system.db` and the flaky-submit counters fresh each run.
+
+### Verifying the pipeline without spending API credits
+
+```bash
+python3 -m tests.scripted_smoke_test
+```
+
+This drives the **real** browser against the **real** mock Flask app through every tool
+(navigate, click, type, view an invoice image, hit the deliberate first-attempt submit
+failure, retry, and independently verify the result via `/api/records`) with a hardcoded
+action sequence standing in for Claude's reasoning — no API key needed. It exists to
+separate two risks: "does the mechanical pipeline work" (this test proves it,
+deterministically) vs. "does Claude reason well enough to drive it autonomously" (only a
+real `python run.py` run with a funded API key can answer that). If the smoke test passes
+but a live run misbehaves, the bug is in prompting/agent behavior, not the tools/environment.
 
 ## Architecture
 
@@ -197,7 +212,7 @@ identical — that boundary is the main thing I'd change first with more time (s
 
 - **Claude (Anthropic Messages API, tool use)** — the agent's reasoning/planning/tool-
   selection, including vision for reading the invoice images. Model id is configurable via
-  `ANTHROPIC_MODEL` in `.env` (defaults to `claude-sonnet-4-5-20250929`).
+  `ANTHROPIC_MODEL` in `.env` (defaults to `claude-sonnet-5`).
 - **Playwright (Python, Chromium)** — browser automation.
 - **Flask + SQLite** — the mock company environment (Inbox + Internal System).
 - **Pillow** — renders the invoice "scan" images.

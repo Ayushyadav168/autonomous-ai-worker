@@ -21,7 +21,7 @@ from .prompts import SYSTEM_PROMPT
 from .tools import TOOL_DEFINITIONS, ImageToolResult, ToolExecutor
 from .browser import image_bytes_to_base64
 
-DEFAULT_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
+DEFAULT_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
 MAX_STEPS = int(os.environ.get("AGENT_MAX_STEPS", "25"))
 
 

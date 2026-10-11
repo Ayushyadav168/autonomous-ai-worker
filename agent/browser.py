@@ -33,7 +33,7 @@ _SNAPSHOT_JS = """
       ref,
       tag,
       id: el.id || null,
-      text: (el.innerText || el.value || el.alt || '').trim().slice(0, 160),
+      text: (el.innerText || el.value || el.alt || '').replace(/\\s+/g, ' ').trim().slice(0, 160),
     };
     if (tag === 'a') item.href = el.getAttribute('href');
     if (tag === 'img') item.src = el.getAttribute('src');
@@ -91,10 +91,18 @@ class BrowserController:
 
     def read_page(self) -> dict:
         elements = self.page.evaluate(_SNAPSHOT_JS)
+        try:
+            body_text = self.page.inner_text("body")
+        except Exception:
+            body_text = ""
         return {
             "url": self.page.url,
             "title": self.page.title(),
             "elements": elements,
+            # Full visible text, not just interactive elements - catches error
+            # banners, headings, and any other plain-text content that isn't
+            # a link/button/input (e.g. a <div class="error">...</div>).
+            "visible_text": " ".join(body_text.split()),
         }
 
     def click(self, ref: str):

@@ -173,7 +173,10 @@ class ToolExecutor:
 
     def _tool_browser_read_page(self, inp):
         snapshot = self.browser.read_page()
-        lines = [f"URL: {snapshot['url']}", f"Title: {snapshot['title']}", "Elements:"]
+        lines = [f"URL: {snapshot['url']}", f"Title: {snapshot['title']}"]
+        if snapshot.get("visible_text"):
+            lines.append(f"Visible page text: {snapshot['visible_text'][:1000]}")
+        lines.append("Elements:")
         for el in snapshot["elements"]:
             desc = f"  [{el['ref']}] <{el['tag']}>"
             if el.get("text"):
