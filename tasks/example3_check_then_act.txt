@@ -1,0 +1,1 @@
+Check whether Nimbus Traders' invoice NT-7731 has already been entered into our internal system. If it has not, find it in the inbox, extract the amount and due date from the attachment, and add it. If it has, just tell me that and do not add a duplicate.

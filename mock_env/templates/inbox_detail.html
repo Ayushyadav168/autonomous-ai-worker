@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ inv.subject }}</title>
+  <style>
+    body { font-family: -apple-system, Arial, sans-serif; margin: 0; background: #f6f7f9; }
+    header { background: #1f2937; color: white; padding: 14px 24px; font-size: 18px; }
+    nav { max-width: 900px; margin: 16px auto 0; }
+    nav a { color: #2563eb; text-decoration: none; margin-right: 16px; }
+    .card { max-width: 900px; margin: 16px auto; background: white; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .meta { color: #555; margin-bottom: 16px; line-height: 1.6; }
+    .meta b { color: #111; }
+    .attachment-label { font-weight: 600; margin-bottom: 8px; color: #333; }
+    img.attachment { max-width: 500px; border: 1px solid #ddd; border-radius: 4px; display: block; }
+  </style>
+</head>
+<body>
+  <header>Inbox</header>
+  <nav><a href="/inbox">Inbox</a><a href="/system">Internal System</a></nav>
+  <div class="card">
+    <h2 id="invoice-subject">{{ inv.subject }}</h2>
+    <div class="meta">
+      <div><b>From:</b> <span id="invoice-sender">{{ inv.sender_email }}</span> ({{ inv.company }})</div>
+      <div><b>Received:</b> <span id="invoice-date-received">{{ inv.date_received }}</span></div>
+      <div><b>Invoice Number:</b> <span id="invoice-number">{{ inv.invoice_number }}</span></div>
+    </div>
+    <div class="attachment-label">Attachment: invoice_{{ inv.invoice_number }}.png</div>
+    <img class="attachment" id="invoice-attachment" src="/static/invoices/{{ inv.id }}.png" alt="invoice attachment">
+  </div>
+</body>
+</html>
